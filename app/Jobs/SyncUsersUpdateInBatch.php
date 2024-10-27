@@ -28,21 +28,24 @@ class SyncUsersUpdateInBatch implements ShouldQueue
      */
     public function handle(): void
     {
-        $suscribers = $this->users->map(fn(User $user) => $user->for3rdParty());
-
-        $payload = [
-            'batches' => [
-                ['suscribers' => $suscribers->toArray()]
-            ]
-        ];
-
         ApiCall::batch()->increment('count');
 
         // Make batch api call
-        $res = Http::post('http://third-party-api.url/batch-update', $payload);
+        $res = Http::post('http://third-party-api.url/batch-update', $this->payload());
 
         if ($res->failed()) {
             Log::error('Batch update failed');
         }
+    }
+
+    public function payload(): array
+    {
+        $subscribers = $this->users->map(fn(User $user) => $user->for3rdParty());
+
+        return [
+            'batches' => [
+                ['subscribers' => $subscribers->toArray()]
+            ]
+        ];
     }
 }
