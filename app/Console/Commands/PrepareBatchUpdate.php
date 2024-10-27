@@ -14,7 +14,7 @@ class PrepareBatchUpdate extends Command
      *
      * @var string
      */
-    protected $signature = 'app:prepare-batch-update';
+    protected $signature = 'prepare-batch-update';
 
     /**
      * The console command description.
@@ -28,10 +28,9 @@ class PrepareBatchUpdate extends Command
      */
     public function handle()
     {
-        // Ensure 3rd party api call for single requests have been exhausted.
+        // Ensure 3rd party api call for single requests have been exhausted before calling batch updates
         if (! ApiCall::isWithinSingleLimit()) {
-
-            // Get the users since the last single api call request and within the current minute.
+            // Get the users since the last single api call request but within the current minute.
             User::whereDate('updated_at', '>', ApiCall::single()->value('updated_at'))
                 ->whereDate('updated_at', '<=', now()->addMinute())
                 ->chunk(1000, function($users) {
