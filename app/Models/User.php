@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Enums\Timezone;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -45,6 +46,22 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'timezone' => Timezone::class
+        ];
+    }
+
+    protected $appends = ['name'];
+
+    /**
+     * Get the data struct for the api update.
+     * 
+     * @return array
+     */
+    public function for3rdParty(): array
+    {
+        return [
+            'email' => $this->email,
+            'name' => "$this->firstname $this->lastname",
+            'time_zone' => $this->timezone
         ];
     }
 }
