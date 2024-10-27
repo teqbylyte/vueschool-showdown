@@ -4,11 +4,13 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Enums\Timezone;
-use Illuminate\Database\Eloquent\Casts\Attribute;
+use App\Observers\UserObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+#[ObservedBy(UserObserver::class)]
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -53,7 +55,7 @@ class User extends Authenticatable
 
     /**
      * Get the data struct for the api update.
-     * 
+     *
      * @return array
      */
     public function for3rdParty(): array

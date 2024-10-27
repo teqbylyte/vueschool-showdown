@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\ApiCall;
 use App\Models\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
@@ -34,6 +35,8 @@ class SyncUsersUpdateInBatch implements ShouldQueue
                 ['suscribers' => $suscribers->toArray()]
             ]
         ];
+
+        ApiCall::batch()->increment('count');
 
         // Make batch api call
         $res = Http::post('http://third-party-api.url/batch-update', $payload);
