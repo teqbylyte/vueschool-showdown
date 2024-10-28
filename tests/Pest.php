@@ -54,8 +54,6 @@ function something()
 pest()->beforeEach(function () {
     User::truncate();
 
-    ApiCall::truncate();
-
     Artisan::call('db:seed --class=ApiCallSeeder');
 });
 

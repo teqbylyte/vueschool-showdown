@@ -13,7 +13,7 @@ class ApiCallSeeder extends Seeder
      */
     public function run(): void
     {
-        ApiCall::create(['type' => ApiCall::SINGLE]);
-        ApiCall::create(['type' => ApiCall::BATCH]);
+        ApiCall::firstOrCreate(['type' => ApiCall::SINGLE]);
+        ApiCall::firstOrCreate(['type' => ApiCall::BATCH]);
     }
 }

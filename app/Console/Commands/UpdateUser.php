@@ -13,7 +13,7 @@ class UpdateUser extends Command
      *
      * @var string
      */
-    protected $signature = 'app:update-user {user}';
+    protected $signature = 'user:update {email}';
 
     /**
      * The console command description.
@@ -27,7 +27,7 @@ class UpdateUser extends Command
      */
     public function handle()
     {
-        $user = User::whereEmail($this->argument('user'))->first();
+        $user = User::whereEmail($this->argument('email'))->first();
 
         if (is_null($user)) {
             $this->error("User not found with specified email.");
