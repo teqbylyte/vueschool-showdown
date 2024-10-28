@@ -11,6 +11,16 @@ class ApiCall extends Model
     const BATCH = 'batch';
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'type',
+        'count',
+    ];
+
+    /**
      * To check if the api calls for single requests is within the providers limit.
      * @return bool
      */

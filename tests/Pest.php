@@ -1,5 +1,10 @@
 <?php
 
+use App\Models\ApiCall;
+use App\Models\User;
+use Database\Seeders\ApiCallSeeder;
+use Illuminate\Support\Facades\Artisan;
+
 /*
 |--------------------------------------------------------------------------
 | Test Case
@@ -45,3 +50,12 @@ function something()
 {
     // ..
 }
+
+pest()->beforeEach(function () {
+    User::truncate();
+
+    ApiCall::truncate();
+
+    Artisan::call('db:seed --class=ApiCallSeeder');
+});
+

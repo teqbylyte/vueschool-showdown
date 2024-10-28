@@ -31,8 +31,8 @@ class PrepareBatchUpdate extends Command
         // Ensure 3rd party api call for single requests have been exhausted before calling batch updates
         if (! ApiCall::isWithinSingleLimit()) {
             // Get the users since the last single api call request but within the current minute.
-            User::whereDate('updated_at', '>', ApiCall::single()->value('updated_at'))
-                ->whereDate('updated_at', '<=', now()->addMinute())
+            User::where('updated_at', '>', ApiCall::single()->value('updated_at'))
+                ->where('updated_at', '>=', now()->subMinute())
                 ->chunk(1000, function($users) {
                     SyncUsersUpdateInBatch::dispatch($users);
                 });
